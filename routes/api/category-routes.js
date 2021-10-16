@@ -7,7 +7,13 @@ const category404Message = 'No category found with this id'
 // get all categories 
 router.get('/', (req, res) => {
   Category.findAll({
-    attributes: ['id', 'category_name']
+    attributes: ['id', 'category_name'],
+    include: [
+      {
+        model: Product,
+        attributes: ['id', 'product_name', 'price', 'stock', 'category_id']
+      }
+    ]
   })
   .then(dbCategoryData => res.json(dbCategoryData))
   .catch(err => res.status(500).json(err))

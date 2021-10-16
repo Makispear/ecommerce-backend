@@ -9,7 +9,18 @@ const product404Message = 'No product found with this id'
 router.get('/', (req, res) => {
   // be sure to include its associated Category and Tag data
   Product.findAll({
-    attributes: ['id', 'product_name', 'price', 'stock', 'category_id']
+    attributes: ['id', 'product_name', 'price', 'stock', 'category_id'],
+    include: [
+      {
+        model: Category, 
+        include: ['id', 'category_name']
+      },
+      {
+        model: Tag,
+        through: ProductTag,
+        as: 'tags'
+      }
+    ]
   })
   .then(dbProductData => res.json(dbProductData))
   .catch(err => res.status(500).json(err))
@@ -19,15 +30,17 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   // be sure to include its associated Category and Tag data
   Product.findOne({
+    attributes: ['id', 'product_name', 'price', 'stock', 'category_id'],
     include: [
       {
           model: Category,
           attributes: ['id', 'category_name']
       },
-      // {
-      //   model: Tag,
-      //   attributes: []
-      // }
+      {
+        model: Tag,
+        through: ProductTag,
+        as: 'tags'
+      }
     ]
   })
   .then(dbProductData => {
@@ -45,7 +58,8 @@ router.post('/', (req, res) => {
     product_name: req.body.product_name,
     price: req.body.price,
     stocks: req.body.stocks,
-    category_id: req.body.category_id
+    category_id: req.body.category_id,
+    // tagIds: req.body.tagIds
   })
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
@@ -110,8 +124,20 @@ router.put('/:id', (req, res) => {
     });
 });
 
+// delete a product 
 router.delete('/:id', (req, res) => {
-  // delete one product by its `id` value
+  Product.destroy({
+    where: {
+      id: req.params.id
+    }
+  })
+  .then(dbProductData => {
+    if (!dbProductData) {
+      return res.status(404).json({message: product404Message})
+    }
+    return res.json(dbProductData)
+  })
+  .catch(err => res.status(500).json(err))
 });
 
 module.exports = router;
