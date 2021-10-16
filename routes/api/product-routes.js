@@ -30,6 +30,9 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   // be sure to include its associated Category and Tag data
   Product.findOne({
+    where: {
+      id: req.params.id
+    },
     attributes: ['id', 'product_name', 'price', 'stock', 'category_id'],
     include: [
       {
@@ -76,13 +79,17 @@ router.post('/', (req, res) => {
     });
 });
 
-// update product
+// update product with tags
 router.put('/:id', (req, res) => {
   // update product data
-  Product.update(req.body, {
+  Product.update({
+    id: req.body.id,
+    tagIds: req.body.tagIds
+  }, 
+  {
     where: {
       id: req.params.id,
-    },
+    }
   })
     .then((product) => {
       // find all associated tags from ProductTag
@@ -92,6 +99,7 @@ router.put('/:id', (req, res) => {
       // get list of current tag_ids
       const productTagIds = productTags.map(({ tag_id }) => tag_id);
       // create filtered list of new tag_ids
+      console.log(req.body.tagIds)
       const newProductTags = req.body.tagIds
         .filter((tag_id) => !productTagIds.includes(tag_id))
         .map((tag_id) => {
