@@ -23,3 +23,10 @@ To Update a category, product, a product's tag, or a tag in general, follow the 
 
 No. You don't need to go to that command line, enter your password and write some commands to get information, just put in the command ```http://localhost:3001/api/``` followed by the endpoint to check everything related to that endpoint and add a ```/<number>``` after that to get a specific record from that same endpoint. 
 for example: ```http://localhost:3001/api/tags/1``` 
+
+## Demonstration 
+Check out this [video](https://drive.google.com/file/d/1obryJZNLSpo2LLJLWs3dp8e_3hhuujgz/view?usp=sharing) for further demonstration!
+
+## Links
+- [GitHub Repo](https://github.com/Makispear/ecommerce-backend)
+- reach out by [emil](mailto:maki-miko@hotmail.com)
