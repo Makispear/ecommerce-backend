@@ -29,4 +29,4 @@ Check out this [video](https://drive.google.com/file/d/1obryJZNLSpo2LLJLWs3dp8e_
 
 ## Links
 - [GitHub Repo](https://github.com/Makispear/ecommerce-backend)
-- reach out by [emil](mailto:maki-miko@hotmail.com)
+- reach out through [email](mailto:maki-miko@hotmail.com)
